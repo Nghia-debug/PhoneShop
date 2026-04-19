@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Giỏ hàng - PhoneShop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center mb-4">Giỏ hàng của bạn</h2>
+
+  {% if products %}
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Sản phẩm</th>
+          <th>Giá</th>
+          <th>Số lượng</th>
+          <th>Thành tiền</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in products %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td>{{ item.product.price|floatformat:0 }} VNĐ</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.subtotal|floatformat:0 }} VNĐ</td>
+          <td>
+            <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-danger btn-sm">Xóa</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-end mt-4">
+    <h4>Tổng tiền: <span class="text-danger">{{ total|floatformat:0 }} VNĐ</span></h4>
+    <button class="btn btn-success btn-lg px-5 mt-3">Thanh toán</button>
+  </div>
+
+  {% else %}
+  <div class="text-center py-5">
+    <h3>Giỏ hàng trống</h3>
+    <a href="{% url 'product_list' %}" class="btn btn-primary mt-3">Tiếp tục mua sắm</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

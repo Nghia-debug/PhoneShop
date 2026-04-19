@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}PhoneShop - Điện Thoại Chính Hãng{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<div class="hero text-center d-flex align-items-center" 
+     style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://source.unsplash.com/random/1920x700/?smartphone'); 
+            background-size: cover; height: 520px; color: white;">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-3">Điện Thoại Mới Nhất 2026</h1>
+        <p class="lead mb-4 fs-4">Giá tốt nhất - Chính hãng - Bảo hành đầy đủ</p>
+        <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg px-5 py-3">Xem tất cả sản phẩm</a>
+    </div>
+</div>
+
+<!-- Sản phẩm nổi bật -->
+<div class="container my-5">
+    <h2 class="text-center mb-5 fw-bold">Sản phẩm nổi bật</h2>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {% for product in featured_products %}
+        <div class="col">
+            <div class="card product-card h-100 shadow-sm">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" 
+                     style="height: 220px; object-fit: contain; padding: 15px;">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="text-muted small">{{ product.category.name }}</p>
+                    <p class="price text-danger fw-bold fs-5">{{ product.price|floatformat:0 }} ₫</p>
+                    
+                    <div class="mt-auto">
+                        <a href="{% url 'product_detail' product.slug %}" 
+                           class="btn btn-outline-primary w-100 mb-2">Xem chi tiết</a>
+                        <a href="{% url 'add_to_cart' product.id %}" 
+                           class="btn btn-primary w-100">
+                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="fs-5">Chưa có sản phẩm nổi bật. Hãy vào Admin thêm sản phẩm!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
